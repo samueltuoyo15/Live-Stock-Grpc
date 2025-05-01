@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package stock;
+
+option go_package = "github.com/samueltuoyo15/Live-Stock-Grpc/proto/generated/stockpb";
+
+service StockService{
+  rpc GetStock (StockRequest) returns (StockResponse);
+  rpc WatchStock (StockRequest) returns (stream StockResponse);
+  rpc UploadStockHistory (stream StockRequest) returns (StockSummary);
+  rpc ChatStock (stream StockRequest) returns (stream StockResponse);
+}
+
+message StockRequest {
+  string symbol = 1;
+}
+
+message StockResponse {
+  string symbol = 1;
+  double price = 2;
+  string timestamp = 3;
+}
+
+message StockSummary {
+  string message = 1;
+  int32 count = 2;
+}
