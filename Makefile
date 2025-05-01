@@ -1,4 +1,4 @@
-PROTO_DIR=proto
+PROTO_DIR=stockpb
 PROTO_FILES=$(PROTO_DIR)/stock.proto
 OUT_DIR=$(PROTO_DIR)/generated
 
