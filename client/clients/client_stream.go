@@ -20,7 +20,7 @@ func (sc *StockClient) UploadStockHistory(stocks []*stockpb.StockRequest) {
   }
   
   for _, stock := range stocks {
-    slog.Info("Sending Stock", "symbol", stock.GetSymbol())
+    slog.Info("Sending Stock symbol", "symbol", stock.GetSymbol())
     if err := stream.Send(stock); err != nil {
     slog.Error("Error sending stock", err)
     return 
