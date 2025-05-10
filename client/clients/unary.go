@@ -11,7 +11,7 @@ import (
 func(sc *StockClient) GetStock(symbol string){
   slog.Info("Starting Unary rpc")
   
-  ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+  ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
   defer cancel()
   
   res, err := sc.client.GetStock(ctx, &stockpb.StockRequest{
