@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"sync"
 	"time"
+	"fmt"
 	"github.com/samueltuoyo15/Live-Stock-Grpc/proto/generated/stockpb"
 )
 
@@ -53,7 +54,7 @@ func (sc *StockClient) ChatStock(stocks []*stockpb.StockRequest) {
 			}
 			slog.Info("Received Stock Update", 
 				"symbol", res.GetSymbol(),
-				"price", res.GetPrice(),
+				"price", fmt.Sprintf("$%.2f", res.GetPrice()),
 				"timestamp", res.GetTimestamp())
 		}
 	}()

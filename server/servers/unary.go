@@ -7,11 +7,16 @@ import (
   )
   
 func (s *StockServer) GetStock(ctx context.Context, req *stockpb.StockRequest) (*stockpb.StockResponse, error) {
-  s.Logger.Info("Received GetStock request from symbol: %s", req.GetSymbol())
-  
+    s.Logger.Info("Fetching REAL-TIME price", "symbol", req.GetSymbol())
+    
+    price, err := GetRealTimePrice(req.GetSymbol()) 
+    if err != nil {
+        s.Logger.Error("Failed to get real-time price", "error", err)
+        return nil, err
+    }
   return &stockpb.StockResponse{
     Symbol: req.GetSymbol(),
-    Price: 100.0,
+    Price: price,
     Timestamp: time.Now().Format(time.RFC3339),
   }, nil
 }

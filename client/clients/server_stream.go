@@ -5,6 +5,7 @@ import (
 	"io"
 	"log/slog"
 	"time"
+	"fmt"
 	"github.com/samueltuoyo15/Live-Stock-Grpc/proto/generated/stockpb"
 )
 
@@ -34,7 +35,7 @@ func(sc *StockClient) WatchStock(symbol string){
     }
       slog.Info("Stock Response",
        "symbol", res.GetSymbol(),
-       "price", res.GetPrice(),
+       "price", fmt.Sprintf("$%.2f", res.GetPrice()),
        "timestamp", res.GetTimestamp())
   }
 }

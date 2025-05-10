@@ -9,8 +9,13 @@ func(s *StockServer) WatchStock(req *stockpb.StockRequest, stream stockpb.StockS
   s.Logger.Info("Streaming Stock updates for: %s", req.GetSymbol())
   
   for i := 0; i < 10; i++ {
-    price := 100.0 + float64(i)
-    
+    price, err := GetRealTimePrice(req.GetSymbol()) 
+     if err != nil {
+      s.Logger.Error("Failed to get real-time price", 
+        "symbol", req.GetSymbol(), 
+        "error", err)
+        return err 
+        }
     resp := &stockpb.StockResponse {
       Symbol: req.GetSymbol(),
       Price: price,

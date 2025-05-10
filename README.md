@@ -1,8 +1,6 @@
-# ⚡️ Live Stock Tracker (gRPC) ⚡️
+# 🚀 Live Stock GRPC: Real-Time Stock Data Streaming 📈
 
-Real-time stock data streaming via gRPC! 📈 Get instant updates, historical data, and interactive stock chats. 💸
-
-## 🖥️ Demo
+Get real-time stock prices and updates using gRPC! This project demonstrates how to build a high-performance, real-time stock data streaming service using Go and gRPC.
 
 ### Server Terminal (Running on Port 8080)
 ![Server Logs](./public/server.png)
@@ -10,104 +8,116 @@ Real-time stock data streaming via gRPC! 📈 Get instant updates, historical da
 ### Client Terminal (Fetching Stock Data)
 ![Client Logs](./public/client.png)
 
-## ✨ Features
+## ⚙️ Installation
 
-- ⚡️ **Unary RPC**: Fetch a single stock price.
-- 📡 **Server Streaming**: Watch live stock updates.
-- 📤 **Client Streaming**: Upload historical data.
-- 💬 **Bi-directional Streaming**: Chat about stocks in real-time.
+Follow these steps to set up the project locally:
 
-## 🛠️ Installation
+- 👯 **Clone the Repository**:
+  ```bash
+  git clone https://github.com/samueltuoyo15/Live-Stock-Grpc.git
+  cd Live-Stock-Grpc
+  ```
 
-Get started by cloning the repository and setting up the environment.
+- 🛠️ **Install Dependencies**:
+  ```bash
+  go mod download
+  ```
 
-- ⬇️ **Clone the Repository**:
+- ⚙️ **Generate gRPC Stubs**:
+  ```bash
+  make proto
+  ```
 
-```bash
-git clone https://github.com/samueltuoyo15/Live-Stock-Grpc.git
-cd Live-Stock-Grpc
-```
+- 🚀 **Run the Server**:
+  ```bash
+  go run server/main.go
+  ```
 
-- ⚙️ **Install Dependencies**:
+- 🏃 **Run the Client**:
+  ```bash
+  go run client/main.go
+  ```
 
-Make sure you have Go installed. Then, download the necessary modules:
+## 💻 Usage
 
-```bash
-go mod download
-```
-
-- 🔨 **Compile Proto Files**:
-
-Generate Go files from the protobuf definitions:
-
-```bash
-make proto
-```
-
-## 🚀 Usage
-
-### Run the Server
-
-```bash
-cd server
-go run main.go
-```
-
-### Run the Client
-
-```bash
-cd client
-go run main.go
-```
-
-<details>
-<summary>Detailed Usage Instructions</summary>
+### Running the Application
 
 1.  **Start the gRPC Server**:
 
-    *   Navigate to the `server` directory.
-    *   Run the `main.go` file to start the server. This will listen on port `8080`.
-
     ```bash
-    cd server
-    go run main.go
+    go run server/main.go
     ```
 
-2.  **Run the gRPC Client**:
+    The server listens on port `8080`.
 
-    *   Open a new terminal and navigate to the `client` directory.
-    *   Run the `main.go` file to start the client. The client will connect to the server and demonstrate the various gRPC methods.
+2.  **Execute the gRPC Client**:
 
     ```bash
-    cd client
-    go run main.go
+    go run client/main.go
     ```
 
-3.  **Observe the Output**:
+    The client will demonstrate unary, server streaming, client streaming, and bidirectional streaming RPCs.
 
-    *   The server will log incoming requests and stream stock updates.
-    *   The client will display the responses from the server, showcasing unary, server streaming, client streaming, and bi-directional streaming RPCs.
-</details>
+### Example Usage
 
-## 🖥️ Technologies Used
+```go
+// Example: Unary RPC
+stockClient.GetStock("AAPL")
 
-| Technology   | Link                                                                       |
-| :----------- | :------------------------------------------------------------------------- |
-| Go           | [https://go.dev/](https://go.dev/)                                          |
-| gRPC         | [https://grpc.io/](https://grpc.io/)                                        |
-| Protocol Buffers | [https://protobuf.dev/](https://protobuf.dev/)                                  |
+// Example: Server Streaming RPC
+stockClient.WatchStock("GOOGL")
+
+// Example: Client Streaming RPC
+stockClient.UploadStockHistory([]*stockpb.StockRequest{
+  { Symbol: "MSFT" },
+  { Symbol: "MSFT" },
+  { Symbol: "MSFT" },
+})
+
+// Example: Bidirectional Streaming RPC
+stockClient.ChatStock([]*stockpb.StockRequest{
+  { Symbol: "AMZN" },
+  { Symbol: "TSLA" },
+  { Symbol: "NVDA" },
+})
+```
+
+## ✨ Features
+
+- ⚡ **Real-Time Data**: Fetches stock prices in real-time.
+- 📡 **gRPC Streaming**: Implements unary, server streaming, client streaming, and bidirectional streaming gRPC methods.
+- 🧰 **Modular Design**: Well-structured code for easy maintenance and extension.
+- 🪵 **Logging**: Utilizes `slog` for structured logging and debugging.
+- 🔑 **API Integration**: Integrates with Alpha Vantage API for stock data.
+
+## 🛠️ Technologies Used
+
+| Technology       | Description                                                              | Link                                                                                       |
+| :--------------- | :----------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- |
+| **Go**           | Programming language                                                     | [https://golang.org/](https://golang.org/)                                                |
+| **gRPC**         | High-performance, open-source universal RPC framework                    | [https://grpc.io/](https://grpc.io/)                                                      |
+| **Protocol Buffers** | Google's language-neutral, platform-neutral, extensible mechanism   | [https://developers.google.com/protocol-buffers](https://developers.google.com/protocol-buffers) |
+| **Alpha Vantage API** | Real-time stock data                                                 | [https://www.alphavantage.co/](https://www.alphavantage.co/)                                |
+| **godotenv**       | Loads environment variables from `.env` file                         | [https://github.com/joho/godotenv](https://github.com/joho/godotenv)                       |
+| **slog**         | Structured logging package                                               | [https://pkg.go.dev/log/slog](https://pkg.go.dev/log/slog)                                  |
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help:
+We welcome contributions! Here's how you can help:
 
-- 🐛 **Report Bugs**: Submit detailed bug reports.
-- 💡 **Suggest Features**: Propose new features and improvements.
-- ✍️ **Contribute Code**: Submit pull requests with well-documented code.
+- 🐛 **Report Bugs**: Submit detailed bug reports to help improve the project.
+- 💡 **Suggest Features**: Propose new features and enhancements.
+- 🛠️ **Submit Pull Requests**: Contribute code changes, fixes, and improvements.
+
+Please follow these guidelines when contributing:
+
+- 📝 Use clear and descriptive commit messages.
+- 🧪 Write tests for new features and bug fixes.
+- 📖 Follow the existing code style.
 
 ## 📜 License
 
-This project is under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
 
 ## 🧑‍💻 Author Info
 
@@ -115,8 +125,10 @@ This project is under the [MIT License](LICENSE).
   - Twitter: [https://x.com/TuoyoS26091]
   - LinkedIn: [https://www.linkedin.com/in/samuel-tuoyo-8568b62b6]
 
-[![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)](https://go.dev/)
-[![gRPC](https://img.shields.io/badge/gRPC-333333?style=for-the-badge&logo=grpc&logoColor=CB6841)](https://grpc.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## Badges
+
+[![Go](https://img.shields.io/badge/Go-1.24-blue)](https://golang.org)
+[![gRPC](https://img.shields.io/badge/gRPC-v1.72.0-brightgreen)](https://grpc.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [![Readme was generated by Dokugen](https://img.shields.io/badge/Readme%20was%20generated%20by-Dokugen-brightgreen)](https://www.npmjs.com/package/dokugen)
