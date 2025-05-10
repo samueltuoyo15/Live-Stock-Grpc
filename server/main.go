@@ -1,7 +1,6 @@
 package main
 
 import (
- "log/slog"
  "net"
  "github.com/samueltuoyo15/Live-Stock-Grpc/proto/generated/stockpb"
  "github.com/samueltuoyo15/Live-Stock-Grpc/server/servers"
@@ -10,17 +9,17 @@ import (
 )
 
 func main(){
-  utils.InitLogger(true)
+  logger := utils.InitLogger(true)
   listen, err := net.Listen("tcp", ":8080")
   if err != nil {
-    slog.Fatalf("Failed to listen: %v", err)
+    logger.Error("Failed to listen: %v", "error", err)
   }
   
   grpcServer := grpc.NewServer()
-  stockpb.RegisterStockServiceServer(grpcServer, &servers.StockServiceServer{})
-  slog.Println("Server is listening on port :8080")
+  stockpb.RegisterStockServiceServer(grpcServer, servers.NewStockServer(logger))
+  logger.Info("Grpc Server is listening on port :8080")
   if err := grpcServer.Serve(listen); err != nil {
-    slog.Fatalf("Failed to serve: %v", err)
+    logger.Error("Failed to serve: %v", "error", err)
   }
 }
 

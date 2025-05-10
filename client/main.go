@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log/slog"
 	"os"
 	"time"
@@ -15,15 +14,15 @@ import (
 func main(){
   utils.InitLogger(true)
   
-  connection, err := grpc.Dial("http://localhost:8080", grpc.WithTransportCredentials(insecure.NewCredentials))
+  connection, err := grpc.Dial("localhost:8080", grpc.WithTransportCredentials(insecure.NewCredentials()))
   if err != nil {
-    slog.Error("Could not connect to Grpc Server", err)
+    slog.Error("Could not connect to Grpc Server", "error", err)
     os.Exit(1)
   }
   defer connection.Close()
   
   client := stockpb.NewStockServiceClient(connection)
-  stockClients := clients.NewStockClient(client)
+  stockClient := clients.NewStockClient(client)
   
   slog.Info("Starting Grpc Client Demo")
   
@@ -34,16 +33,17 @@ func main(){
   stockClient.WatchStock("GOOGL")
   
   // client streaming 
-  stockClient.UploadStockHistory([] *stockpb.StockRequest{
-    { Symbol: "MSFT", Price: 280.0 },
-    { Symbol: "MSFT", Price: 291.5 },
-    { Symbol: "MSFT", Price: 299.5 },
+  stockClient.UploadStockHistory([]*stockpb.StockRequest{
+    { Symbol: "MSFT" },
+    { Symbol: "MSFT" },
+    { Symbol: "MSFT" },
   })
   
   // bi-directional straeaming 
-  stockClient.ChatStock([] *stockpb.StockRequest{
+  stockClient.ChatStock([]*stockpb.StockRequest{
     { Symbol: "AMZN" },
     { Symbol: "TSLA" },
     { Symbol: "NVDA" },
   })
+  time.Sleep(2*time.Second)
 }

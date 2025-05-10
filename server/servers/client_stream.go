@@ -6,13 +6,13 @@ import (
   "github.com/samueltuoyo15/Live-Stock-Grpc/proto/generated/stockpb"
   )
   
-func(s s.StockServer) UploadStockHistory(stream stockpb.StockService_UploadStockHistoryServer) error {
+func(s *StockServer) UploadStockHistory(stream stockpb.StockService_UploadStockHistoryServer) error {
   count := 0
   for {
-    req, err := streamRecv()
+    req, err := stream.Recv()
     if err == io.EOF{
-      s.logger.Infof("Received %d stock history entries", count)
-      return StreamAndClose(&stockpb.StockSummary{
+      s.Logger.Info("Received %d stock history entries", "count", count)
+      return stream.SendAndClose(&stockpb.StockSummary{
         Message: "Upload Complete",
         Count: int32(count),
       })
@@ -20,7 +20,7 @@ func(s s.StockServer) UploadStockHistory(stream stockpb.StockService_UploadStock
     if err != nil {
       return err
     }
-    s.logger.Infof("Received stock: %s at price %.2f", req.Symbol, req.Price)
+    s.Logger.Info("Received stock", "symbol", req.GetSymbol())
     count++
   }
 }

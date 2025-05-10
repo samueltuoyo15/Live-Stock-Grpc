@@ -14,11 +14,11 @@ func(sc *StockClient) WatchStock(symbol string){
   ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
   defer cancel()
   
-  stream, err := sc.clients.WatchStock(ctx, &stockpb.StockRequest{
+  stream, err := sc.client.WatchStock(ctx, &stockpb.StockRequest{
     Symbol: symbol,
   })
   if err != nil {
-    slog.Error("Error calling watch stock", err)
+    slog.Error("Error calling watch stock", "error", err)
     return 
   }
   
@@ -28,13 +28,13 @@ func(sc *StockClient) WatchStock(symbol string){
       slog.Info("Stream Ended")
       break
     }
-    if err != nip {
-      slog.Error("Error receiving stream")
+    if err != nil {
+      slog.Error("Error receiving stream", "error", err)
       break
     }
       slog.Info("Stock Response",
-       "symbol": res.GetSymbol(),
-       "price": res.GetPrice(),
-       "timestamp": res.GetTimestamp())
+       "symbol", res.GetSymbol(),
+       "price", res.GetPrice(),
+       "timestamp", res.GetTimestamp())
   }
 }

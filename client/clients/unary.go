@@ -17,12 +17,12 @@ func(sc *StockClient) GetStock(symbol string){
     Symbol: symbol,
   })
   if err != nil{
-    slog.Error("Error calling GetStock", err)
+    slog.Error("Error calling GetStock", "error", err)
     return 
   }
   
   slog.Info("Stock Response",
-  "symbol": res.GetSymbol(),
-  "price": res.GetPrice(),
-  "timestamp": res.GetTimestamp())
+  "symbol", res.GetSymbol(),
+  "price", res.GetPrice(),
+  "timestamp", res.GetTimestamp())
 }

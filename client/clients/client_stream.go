@@ -8,33 +8,33 @@ import (
 )
 
 func (sc *StockClient) UploadStockHistory(stocks []*stockpb.StockRequest) {
-  slog.Info("Starting Client Streaming Rpc")
-  
-  ctx, cancel := context.WithTimeout(context.Background, 10*time.Second)
-  defer cancel()
-  
-  stream, err := sc.client.UploadStockHistory(ctx)
-  if err != nil {
-    slog.Error("Error calling upload stock history", err)
-    return 
-  }
-  
-  for _, stock := range stocks {
-    slog.Info("Sending Stock symbol", "symbol", stock.GetSymbol())
-    if err := stream.Send(stock); err != nil {
-    slog.Error("Error sending stock", err)
-    return 
-    }
-    time.Sleep(500, time.Millisecond)
-  }
-  
-  res, err := stream.CloseAndRecv()
-  if err != nil {
-    slog.Error("Error Receiving Response", err)
-    return 
-  }
-  
-  slog.Info("Upload Summary",
-  "message", res.GetMessage(),
-  "count", res.GetCount())
+	slog.Info("Starting client streaming RPC")
+	
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	
+	stream, err := sc.client.UploadStockHistory(ctx)
+	if err != nil {
+		slog.Error("error calling upload stock history", "error", err)
+		return 
+	}
+	
+	for _, stock := range stocks {
+		slog.Info("sending stock symbol", "symbol", stock.GetSymbol())
+		if err := stream.Send(stock); err != nil {
+			slog.Error("error sending stock", "error", err)
+			return 
+		}
+		time.Sleep(500 * time.Millisecond)
+	}
+	
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		slog.Error("error receiving response", "error", err)
+		return 
+	}
+	
+	slog.Info("upload summary",
+		"message", res.GetMessage(),
+		"count", res.GetCount())
 }

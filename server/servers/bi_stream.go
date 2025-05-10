@@ -11,13 +11,13 @@ func(s *StockServer) ChatStock(stream stockpb.StockService_ChatStockServer) erro
   for {
     req, err := stream.Recv()
     if err == io.EOF {
-      s.logger.Info("Chat ended")
+      s.Logger.Info("Chat ended")
       return nil
     }
     if err != nil {
       return err 
     }
-    s.loger.Infof("Received chat stock request for: %s", req.Symbol)
+    s.Logger.Info("Received chat stock request for: %s", req.Symbol)
     resp := &stockpb.StockResponse{
       Symbol: req.Symbol,
       Price: 200.0,

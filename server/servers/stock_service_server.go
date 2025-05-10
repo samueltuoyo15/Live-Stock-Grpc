@@ -1,9 +1,17 @@
 package servers
 
-import "github.com/samueltuoyo15/Live-Stock-Grpc/proto/generated/stockpb"
+import (
+	"log/slog"
+	"github.com/samueltuoyo15/Live-Stock-Grpc/proto/generated/stockpb"
+)
 
-type StockServiceServer struct {
-  logger Logger
-  stockpb.UnimplementedStockServiceServer
+type StockServer struct {
+	Logger *slog.Logger
+	stockpb.UnimplementedStockServiceServer
 }
 
+func NewStockServer(logger *slog.Logger) *StockServer {
+	return &StockServer{
+		Logger: logger,
+	}
+}
