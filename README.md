@@ -2,6 +2,14 @@
 
 Real-time stock data streaming via gRPC! 📈 Get instant updates, historical data, and interactive stock chats. 💸
 
+## 🖥️ Demo
+
+### Server Terminal (Running on Port 8080)
+![Server Logs](./public/server.png)
+
+### Client Terminal (Fetching Stock Data)
+![Client Logs](./public/client.png)
+
 ## ✨ Features
 
 - ⚡️ **Unary RPC**: Fetch a single stock price.
